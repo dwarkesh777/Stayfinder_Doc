@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gmail App Password Setup Instructions &mdash; Stayfinder 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="✅ Property Approval System - Implementation Complete" href="IMPLEMENTATION_COMPLETE.html" />
+    <link rel="prev" title="Admin Dashboard for Stayfinder" href="ADMIN_DASHBOARD_README.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Stayfinder
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">General:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">SEM3-Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ADMIN_DASHBOARD_README.html">Admin Dashboard for Stayfinder</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Gmail App Password Setup Instructions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#problem">Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#solution-set-up-gmail-app-password">Solution: Set up Gmail App Password</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-enable-2-factor-authentication-2fa">Step 1: Enable 2-Factor Authentication (2FA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-generate-app-password">Step 2: Generate App Password</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-update-configuration">Step 3: Update Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-test-again">Step 4: Test Again</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#alternative-use-a-different-email-service">Alternative: Use a Different Email Service</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sendgrid">SendGrid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#outlook-hotmail">Outlook/Hotmail</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#security-note">Security Note</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="IMPLEMENTATION_COMPLETE.html">✅ Property Approval System - Implementation Complete</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Booking System:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_ACCEPTANCE_FLOW.html">Admin Booking Acceptance Flow - User Dashboard Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_EMAIL_IMPLEMENTATION.html">Booking Request Email Notifications - Implementation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_EMAILS_QUICK_GUIDE.html">Booking Email Notifications - Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ENQUIRY_EMAIL_NOTIFICATIONS.html">✅ Enquiry Email Notifications - Implementation Complete</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Password Management:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_INDEX.html">Forgot Password Feature - Complete Documentation Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_QUICKSTART.html">Quick Start Guide - Forgot Password Feature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_README.html">🔐 FORGOT PASSWORD FEATURE - QUICK ACCESS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_SUMMARY.html">Implementation Summary - Forgot Password with OTP Verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_DELIVERY.html">🎉 FORGOT PASSWORD FEATURE - DELIVERY COMPLETE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_IMPLEMENTATION.html">Forgot Password &amp; OTP Verification Implementation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Property System:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PROPERTY_APPROVAL_SYSTEM.html">Property Approval System Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROPERTY_APPROVAL_IMPLEMENTATION.html">Property Approval System - Implementation Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Stayfinder</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Gmail App Password Setup Instructions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/email_setup_instructions.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gmail-app-password-setup-instructions">
+<h1>Gmail App Password Setup Instructions<a class="headerlink" href="#gmail-app-password-setup-instructions" title="Link to this heading"></a></h1>
+<section id="problem">
+<h2>Problem<a class="headerlink" href="#problem" title="Link to this heading"></a></h2>
+<p>The error “Username and Password not accepted” occurs because Gmail requires an <strong>App Password</strong> for applications instead of your regular password.</p>
+</section>
+<section id="solution-set-up-gmail-app-password">
+<h2>Solution: Set up Gmail App Password<a class="headerlink" href="#solution-set-up-gmail-app-password" title="Link to this heading"></a></h2>
+<section id="step-1-enable-2-factor-authentication-2fa">
+<h3>Step 1: Enable 2-Factor Authentication (2FA)<a class="headerlink" href="#step-1-enable-2-factor-authentication-2fa" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Go to <a class="reference external" href="https://myaccount.google.com/">Google Account settings</a></p></li>
+<li><p>Click on “Security”</p></li>
+<li><p>Under “Signing in to Google”, enable <strong>2-Step Verification</strong></p></li>
+<li><p>Follow the setup process</p></li>
+</ol>
+</section>
+<section id="step-2-generate-app-password">
+<h3>Step 2: Generate App Password<a class="headerlink" href="#step-2-generate-app-password" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>After enabling 2FA, go to <a class="reference external" href="https://myaccount.google.com/apppasswords">App Passwords</a></p></li>
+<li><p>Select “Mail” from the app dropdown</p></li>
+<li><p>Select “Other (Custom name)” and enter “Stayfinder”</p></li>
+<li><p>Click “Generate”</p></li>
+<li><p>Copy the 16-character password (it will look like: xxxx xxxx xxxx xxxx)</p></li>
+</ol>
+</section>
+<section id="step-3-update-configuration">
+<h3>Step 3: Update Configuration<a class="headerlink" href="#step-3-update-configuration" title="Link to this heading"></a></h3>
+<p>Replace the password in your email configuration with the generated App Password:</p>
+<p><strong>Current (incorrect):</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MAIL_PASSWORD</span><span class="o">=</span><span class="n">Mangukiya</span><span class="o">@</span><span class="mi">108</span>
+</pre></div>
+</div>
+<p><strong>New (correct):</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MAIL_PASSWORD</span><span class="o">=</span><span class="n">xxxx</span> <span class="n">xxxx</span> <span class="n">xxxx</span> <span class="n">xxxx</span>  <span class="c1"># Use the generated App Password</span>
+</pre></div>
+</div>
+</section>
+<section id="step-4-test-again">
+<h3>Step 4: Test Again<a class="headerlink" href="#step-4-test-again" title="Link to this heading"></a></h3>
+<p>Run the test script again:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>test_email_config.py
+</pre></div>
+</div>
+</section>
+</section>
+<section id="alternative-use-a-different-email-service">
+<h2>Alternative: Use a Different Email Service<a class="headerlink" href="#alternative-use-a-different-email-service" title="Link to this heading"></a></h2>
+<p>If you prefer not to use Gmail, you can use other email services:</p>
+<section id="sendgrid">
+<h3>SendGrid<a class="headerlink" href="#sendgrid" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Sign up at <a class="reference external" href="https://sendgrid.com/">SendGrid</a></p></li>
+<li><p>Get an API key</p></li>
+<li><p>Update configuration:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MAIL_SERVER</span><span class="o">=</span><span class="n">smtp</span><span class="o">.</span><span class="n">sendgrid</span><span class="o">.</span><span class="n">net</span>
+<span class="n">MAIL_PORT</span><span class="o">=</span><span class="mi">587</span>
+<span class="n">MAIL_USERNAME</span><span class="o">=</span><span class="n">apikey</span>
+<span class="n">MAIL_PASSWORD</span><span class="o">=</span><span class="n">YOUR_SENDGRID_API_KEY</span>
+</pre></div>
+</div>
+</section>
+<section id="outlook-hotmail">
+<h3>Outlook/Hotmail<a class="headerlink" href="#outlook-hotmail" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MAIL_SERVER</span><span class="o">=</span><span class="n">smtp</span><span class="o">-</span><span class="n">mail</span><span class="o">.</span><span class="n">outlook</span><span class="o">.</span><span class="n">com</span>
+<span class="n">MAIL_PORT</span><span class="o">=</span><span class="mi">587</span>
+<span class="n">MAIL_USE_TLS</span><span class="o">=</span><span class="n">true</span>
+<span class="n">MAIL_USERNAME</span><span class="o">=</span><span class="n">your_email</span><span class="nd">@outlook</span><span class="o">.</span><span class="n">com</span>
+<span class="n">MAIL_PASSWORD</span><span class="o">=</span><span class="n">your_app_password</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="security-note">
+<h2>Security Note<a class="headerlink" href="#security-note" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Never commit real passwords to version control</p></li>
+<li><p>Use environment variables for production</p></li>
+<li><p>App passwords are more secure than regular passwords for applications</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ADMIN_DASHBOARD_README.html" class="btn btn-neutral float-left" title="Admin Dashboard for Stayfinder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="IMPLEMENTATION_COMPLETE.html" class="btn btn-neutral float-right" title="✅ Property Approval System - Implementation Complete" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Dwarkesh S..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

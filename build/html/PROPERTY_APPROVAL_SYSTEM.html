@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Approval System Documentation &mdash; Stayfinder 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Property Approval System - Implementation Summary" href="PROPERTY_APPROVAL_IMPLEMENTATION.html" />
+    <link rel="prev" title="Forgot Password &amp; OTP Verification Implementation" href="FORGOT_PASSWORD_IMPLEMENTATION.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Stayfinder
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">General:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">SEM3-Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ADMIN_DASHBOARD_README.html">Admin Dashboard for Stayfinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email_setup_instructions.html">Gmail App Password Setup Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IMPLEMENTATION_COMPLETE.html">✅ Property Approval System - Implementation Complete</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Booking System:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_ACCEPTANCE_FLOW.html">Admin Booking Acceptance Flow - User Dashboard Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_EMAIL_IMPLEMENTATION.html">Booking Request Email Notifications - Implementation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_EMAILS_QUICK_GUIDE.html">Booking Email Notifications - Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ENQUIRY_EMAIL_NOTIFICATIONS.html">✅ Enquiry Email Notifications - Implementation Complete</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Password Management:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_INDEX.html">Forgot Password Feature - Complete Documentation Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_QUICKSTART.html">Quick Start Guide - Forgot Password Feature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_README.html">🔐 FORGOT PASSWORD FEATURE - QUICK ACCESS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_SUMMARY.html">Implementation Summary - Forgot Password with OTP Verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_DELIVERY.html">🎉 FORGOT PASSWORD FEATURE - DELIVERY COMPLETE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_IMPLEMENTATION.html">Forgot Password &amp; OTP Verification Implementation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Property System:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Property Approval System Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#system-architecture">System Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#property-status-values">Property Status Values</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#flow-diagram">Flow Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementation-details">Implementation Details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#property-creation-owner-side">1. Property Creation (Owner Side)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-facing-routes-filter-by-status">2. User-Facing Routes - Filter by Status</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#a-home-page">a) Home Page (<code class="docutils literal notranslate"><span class="pre">/</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#b-search-route-search">b) Search Route (<code class="docutils literal notranslate"><span class="pre">/search</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#c-api-endpoints">c) API Endpoints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#d-detail-page-detail-hostel-id">d) Detail Page (<code class="docutils literal notranslate"><span class="pre">/detail/&lt;hostel_id&gt;</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#e-similar-properties-function">e) Similar Properties Function</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#admin-dashboard-view-pending-properties">3. Admin Dashboard - View Pending Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#admin-approval-api">4. Admin Approval API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#admin-deactivation-api">5. Admin Deactivation API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#user-messages">User Messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#when-owner-adds-property">When Owner Adds Property</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#when-user-tries-to-view-pending-property">When User Tries to View Pending Property</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#database-schema">Database Schema</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#property-hostel-collection">Property (Hostel) Collection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#summary-of-changes">Summary of Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-checklist">Testing Checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#security-notes">Security Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#future-enhancements">Future Enhancements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PROPERTY_APPROVAL_IMPLEMENTATION.html">Property Approval System - Implementation Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Stayfinder</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Property Approval System Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/PROPERTY_APPROVAL_SYSTEM.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="property-approval-system-documentation">
+<h1>Property Approval System Documentation<a class="headerlink" href="#property-approval-system-documentation" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This document describes the property approval system implemented in StayFinder. The system ensures that when an owner adds a new property, it remains <strong>hidden from all users</strong> until an admin approves it. Only approved properties are visible on the website.</p>
+</section>
+<section id="system-architecture">
+<h2>System Architecture<a class="headerlink" href="#system-architecture" title="Link to this heading"></a></h2>
+<section id="property-status-values">
+<h3>Property Status Values<a class="headerlink" href="#property-status-values" title="Link to this heading"></a></h3>
+<p>Each property in the database has a <code class="docutils literal notranslate"><span class="pre">status</span></code> field with the following values:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Status</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Visibility</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pending</span></code></p></td>
+<td><p>Property newly added, awaiting admin approval</p></td>
+<td><p>Hidden from all users</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">active</span></code></p></td>
+<td><p>Property approved by admin, visible to all users</p></td>
+<td><p><strong>Visible on website</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">inactive</span></code></p></td>
+<td><p>Property deactivated by admin</p></td>
+<td><p>Hidden from all users</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="flow-diagram">
+<h2>Flow Diagram<a class="headerlink" href="#flow-diagram" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Owner adds property
+    ↓
+Property saved with status: &quot;pending&quot;
+    ↓
+Property HIDDEN from website
+    ↓
+Admin reviews property in Admin Dashboard
+    ↓
+Admin clicks &quot;Approve&quot; button
+    ↓
+Property status changed to: &quot;active&quot;
+    ↓
+Property NOW VISIBLE on website
+</pre></div>
+</div>
+</section>
+<section id="implementation-details">
+<h2>Implementation Details<a class="headerlink" href="#implementation-details" title="Link to this heading"></a></h2>
+<section id="property-creation-owner-side">
+<h3>1. Property Creation (Owner Side)<a class="headerlink" href="#property-creation-owner-side" title="Link to this heading"></a></h3>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">app.py</span></code> → <code class="docutils literal notranslate"><span class="pre">/add</span></code> route (line ~2102)</p>
+<p>When an owner adds a property:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">new_hostel</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;city&quot;</span><span class="p">),</span>
+    <span class="c1"># ... other fields ...</span>
+    <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;pending&quot;</span><span class="p">,</span>  <span class="c1"># ← Newly added properties start as PENDING</span>
+    <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">hostels</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">new_hostel</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Result:</strong> Properties are saved with <code class="docutils literal notranslate"><span class="pre">status:</span> <span class="pre">&quot;pending&quot;</span></code> and are NOT visible to users.</p>
+</section>
+<section id="user-facing-routes-filter-by-status">
+<h3>2. User-Facing Routes - Filter by Status<a class="headerlink" href="#user-facing-routes-filter-by-status" title="Link to this heading"></a></h3>
+<p>All routes that display properties to regular users now filter to show ONLY active properties:</p>
+<section id="a-home-page">
+<h4>a) Home Page (<code class="docutils literal notranslate"><span class="pre">/</span></code>)<a class="headerlink" href="#a-home-page" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">home</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">hostels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">hostels</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">}))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hostels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">hostels</span><span class="o">=</span><span class="n">hostels</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="b-search-route-search">
+<h4>b) Search Route (<code class="docutils literal notranslate"><span class="pre">/search</span></code>)<a class="headerlink" href="#b-search-route-search" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/search&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;query&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">hostels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">hostels</span><span class="o">.</span><span class="n">find</span><span class="p">({</span>
+            <span class="s2">&quot;$and&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span><span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$regex&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">,</span> <span class="s2">&quot;$options&quot;</span><span class="p">:</span> <span class="s2">&quot;i&quot;</span><span class="p">}},</span>
+                <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;active&quot;</span><span class="p">}</span>  <span class="c1"># ← Filter for active only</span>
+            <span class="p">]</span>
+        <span class="p">}))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hostels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">hostels</span><span class="o">=</span><span class="n">hostels</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="c-api-endpoints">
+<h4>c) API Endpoints<a class="headerlink" href="#c-api-endpoints" title="Link to this heading"></a></h4>
+<p><strong>GET <code class="docutils literal notranslate"><span class="pre">/api/hostels</span></code></strong> - Get all active hostels</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">}</span>  <span class="c1"># Only show active properties</span>
+<span class="k">if</span> <span class="n">city</span><span class="p">:</span>
+    <span class="n">query</span><span class="p">[</span><span class="s1">&#39;city&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">city</span>
+<span class="c1"># ... additional filters ...</span>
+<span class="n">hostels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">hostels</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">query</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>POST <code class="docutils literal notranslate"><span class="pre">/api/hostels/search</span></code></strong> - Search with status filter</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">search_conditions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;active&quot;</span><span class="p">})</span>
+<span class="n">search_query</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;$and&quot;</span><span class="p">:</span> <span class="n">search_conditions</span><span class="p">}</span>
+<span class="n">hostels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">hostels</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">search_query</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>POST <code class="docutils literal notranslate"><span class="pre">/api/hostels/search/college</span></code></strong> - College search with status filter</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hostels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">hostels</span><span class="o">.</span><span class="n">find</span><span class="p">({</span>
+    <span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$exists&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+    <span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$exists&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+    <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span>  <span class="c1"># ← Only active properties</span>
+<span class="p">}))</span>
+</pre></div>
+</div>
+</section>
+<section id="d-detail-page-detail-hostel-id">
+<h4>d) Detail Page (<code class="docutils literal notranslate"><span class="pre">/detail/&lt;hostel_id&gt;</span></code>)<a class="headerlink" href="#d-detail-page-detail-hostel-id" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">detail</span><span class="p">(</span><span class="n">hostel_id</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">hostel</span> <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">hostels</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">hostel_id</span><span class="p">)})</span>
+        
+        <span class="c1"># Check if user can view this property</span>
+        <span class="k">if</span> <span class="n">hostel</span> <span class="ow">and</span> <span class="n">hostel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;active&#39;</span><span class="p">:</span>
+            <span class="c1"># Check if user is the owner or admin</span>
+            <span class="k">if</span> <span class="s1">&#39;user_id&#39;</span> <span class="ow">in</span> <span class="n">session</span><span class="p">:</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">])})</span>
+                <span class="c1"># Allow viewing only if user is the owner or admin</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">hostel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;created_by&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">session</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="ow">or</span> 
+                        <span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;is_admin&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)):</span>
+                    <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;This property is not available for viewing right now.&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;This property is not available for viewing right now.&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>Result:</strong> Users cannot view pending or inactive properties. Only owners and admins can view their own pending properties.</p>
+</section>
+<section id="e-similar-properties-function">
+<h4>e) Similar Properties Function<a class="headerlink" href="#e-similar-properties-function" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_similar_price_properties</span><span class="p">(</span><span class="n">current_hostel</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$ne&#39;</span><span class="p">:</span> <span class="n">current_id</span><span class="p">},</span>
+        <span class="s1">&#39;price&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;$gte&#39;</span><span class="p">:</span> <span class="n">min_price</span><span class="p">,</span> <span class="s1">&#39;$lte&#39;</span><span class="p">:</span> <span class="n">max_price</span><span class="p">},</span>
+        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span>  <span class="c1"># ← Only show active properties</span>
+    <span class="p">}</span>
+    <span class="n">similar_properties</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">hostels</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">query</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="admin-dashboard-view-pending-properties">
+<h3>3. Admin Dashboard - View Pending Properties<a class="headerlink" href="#admin-dashboard-view-pending-properties" title="Link to this heading"></a></h3>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">app.py</span></code> → <code class="docutils literal notranslate"><span class="pre">/admin-dashboard</span></code> route (line ~3278)</p>
+<p>Admins can see ALL properties (both pending and active) with approval controls:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/admin-dashboard&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">admin_dashboard</span><span class="p">():</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">])})</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;is_admin&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">flash</span><span class="p">(</span><span class="s1">&#39;Access denied. Admin account required.&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">))</span>
+    
+    <span class="c1"># Get ALL properties (including pending)</span>
+    <span class="n">properties</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">hostels</span><span class="o">.</span><span class="n">find</span><span class="p">({}))</span>
+    
+    <span class="c1"># Add owner information to each property</span>
+    <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">property</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;created_by&#39;</span><span class="p">):</span>
+            <span class="n">owner</span> <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="nb">property</span><span class="p">[</span><span class="s1">&#39;created_by&#39;</span><span class="p">])})</span>
+            <span class="k">if</span> <span class="n">owner</span><span class="p">:</span>
+                <span class="nb">property</span><span class="p">[</span><span class="s1">&#39;owner_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">owner</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">owner</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;last_name&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="nb">property</span><span class="p">[</span><span class="s1">&#39;owner_email&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">owner</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;No email&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Calculate pending properties count</span>
+    <span class="n">total_properties</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">properties</span><span class="p">)</span>
+    <span class="n">pending_properties</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">properties</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;pending&#39;</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;admin_dashboard.html&#39;</span><span class="p">,</span> 
+                         <span class="n">properties</span><span class="o">=</span><span class="n">properties</span><span class="p">,</span>
+                         <span class="n">total_properties</span><span class="o">=</span><span class="n">total_properties</span><span class="p">,</span>
+                         <span class="n">pending_properties</span><span class="o">=</span><span class="n">pending_properties</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="admin-approval-api">
+<h3>4. Admin Approval API<a class="headerlink" href="#admin-approval-api" title="Link to this heading"></a></h3>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">app.py</span></code> → <code class="docutils literal notranslate"><span class="pre">/api/admin/properties/&lt;hostel_id&gt;/approve</span></code> route (line ~1340)</p>
+<p>Admins can approve pending properties:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/api/admin/properties/&lt;hostel_id&gt;/approve&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@jwt_required</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">api_admin_approve_property</span><span class="p">(</span><span class="n">hostel_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Approve a property (admin only)&quot;&quot;&quot;</span>
+    <span class="n">current_user_id</span> <span class="o">=</span> <span class="n">get_jwt_identity</span><span class="p">()</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">current_user_id</span><span class="p">)})</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;is_admin&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+            <span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;Access denied. Admin account required.&#39;</span>
+        <span class="p">}),</span> <span class="mi">403</span>
+    
+    <span class="c1"># Update property status to ACTIVE</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">hostels</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">hostel_id</span><span class="p">)},</span>
+        <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;active&quot;</span><span class="p">,</span>  <span class="c1"># ← Change from &#39;pending&#39; to &#39;active&#39;</span>
+            <span class="s2">&quot;approved_at&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+        <span class="p">}}</span>
+    <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">matched_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;Property not found&#39;</span><span class="p">}),</span> <span class="mi">404</span>
+    
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;Property approved successfully&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p><strong>Result:</strong> When approved, property becomes visible to all users on the website.</p>
+</section>
+<section id="admin-deactivation-api">
+<h3>5. Admin Deactivation API<a class="headerlink" href="#admin-deactivation-api" title="Link to this heading"></a></h3>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">app.py</span></code> → <code class="docutils literal notranslate"><span class="pre">/api/admin/properties/&lt;hostel_id&gt;/deactivate</span></code> route (line ~1373)</p>
+<p>Admins can deactivate approved properties:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/api/admin/properties/&lt;hostel_id&gt;/deactivate&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@jwt_required</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">api_admin_deactivate_property</span><span class="p">(</span><span class="n">hostel_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Deactivate a property (admin only)&quot;&quot;&quot;</span>
+    <span class="c1"># ... validation ...</span>
+    
+    <span class="n">result</span> <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">hostels</span><span class="o">.</span><span class="n">update_one</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">hostel_id</span><span class="p">)},</span>
+        <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;inactive&quot;</span><span class="p">}}</span>  <span class="c1"># ← Change to &#39;inactive&#39;</span>
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s1">&#39;success&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;Property deactivated successfully&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p><strong>Result:</strong> Deactivated properties become hidden from users again.</p>
+</section>
+</section>
+<section id="user-messages">
+<h2>User Messages<a class="headerlink" href="#user-messages" title="Link to this heading"></a></h2>
+<section id="when-owner-adds-property">
+<h3>When Owner Adds Property<a class="headerlink" href="#when-owner-adds-property" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Property listed successfully! It will be visible after verification.&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="when-user-tries-to-view-pending-property">
+<h3>When User Tries to View Pending Property<a class="headerlink" href="#when-user-tries-to-view-pending-property" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;This property is not available for viewing right now.&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="database-schema">
+<h2>Database Schema<a class="headerlink" href="#database-schema" title="Link to this heading"></a></h2>
+<section id="property-hostel-collection">
+<h3>Property (Hostel) Collection<a class="headerlink" href="#property-hostel-collection" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;_id&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">ObjectId</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;String&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;city&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;String&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">Number</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">// ... other fields ...</span>
+<span class="w">  </span><span class="s2">&quot;status&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;String&quot;</span><span class="p">,</span><span class="w">        </span><span class="c1">// ← NEW: &#39;pending&#39;, &#39;active&#39;, or &#39;inactive&#39;</span>
+<span class="w">  </span><span class="s2">&quot;created_by&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;String&quot;</span><span class="p">,</span><span class="w">    </span><span class="c1">// Owner&#39;s user ID</span>
+<span class="w">  </span><span class="s2">&quot;created_at&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">DateTime</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;approved_at&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">DateTime</span><span class="w">    </span><span class="c1">// ← Set when admin approves</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="summary-of-changes">
+<h2>Summary of Changes<a class="headerlink" href="#summary-of-changes" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Component</p></th>
+<th class="head"><p>Change</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Property Creation</p></td>
+<td><p>Add <code class="docutils literal notranslate"><span class="pre">status:</span> <span class="pre">&quot;pending&quot;</span></code></p></td>
+<td><p>Hide new properties initially</p></td>
+</tr>
+<tr class="row-odd"><td><p>Home Route</p></td>
+<td><p>Add filter <code class="docutils literal notranslate"><span class="pre">{status:</span> <span class="pre">'active'}</span></code></p></td>
+<td><p>Show only approved properties</p></td>
+</tr>
+<tr class="row-even"><td><p>Search Route</p></td>
+<td><p>Add filter <code class="docutils literal notranslate"><span class="pre">{status:</span> <span class="pre">'active'}</span></code></p></td>
+<td><p>Show only approved properties</p></td>
+</tr>
+<tr class="row-odd"><td><p>API Search</p></td>
+<td><p>Add filter <code class="docutils literal notranslate"><span class="pre">{status:</span> <span class="pre">'active'}</span></code></p></td>
+<td><p>Show only approved properties</p></td>
+</tr>
+<tr class="row-even"><td><p>API College Search</p></td>
+<td><p>Add filter <code class="docutils literal notranslate"><span class="pre">{status:</span> <span class="pre">'active'}</span></code></p></td>
+<td><p>Show only approved properties</p></td>
+</tr>
+<tr class="row-odd"><td><p>Detail Route</p></td>
+<td><p>Check status and permissions</p></td>
+<td><p>Prevent viewing of pending properties</p></td>
+</tr>
+<tr class="row-even"><td><p>Similar Properties</p></td>
+<td><p>Add filter <code class="docutils literal notranslate"><span class="pre">{status:</span> <span class="pre">'active'}</span></code></p></td>
+<td><p>Show only approved properties</p></td>
+</tr>
+<tr class="row-odd"><td><p>Admin Dashboard</p></td>
+<td><p>Display all properties</p></td>
+<td><p>Show pending count for review</p></td>
+</tr>
+<tr class="row-even"><td><p>Approve API</p></td>
+<td><p>Update status to <code class="docutils literal notranslate"><span class="pre">'active'</span></code></p></td>
+<td><p>Make property visible</p></td>
+</tr>
+<tr class="row-odd"><td><p>Deactivate API</p></td>
+<td><p>Update status to <code class="docutils literal notranslate"><span class="pre">'inactive'</span></code></p></td>
+<td><p>Hide property from users</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="testing-checklist">
+<h2>Testing Checklist<a class="headerlink" href="#testing-checklist" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>[ ] Owner adds new property → Property is hidden from home page</p></li>
+<li><p>[ ] Admin views admin dashboard → See property with “pending” status</p></li>
+<li><p>[ ] Admin clicks approve → Property status changes to “active”</p></li>
+<li><p>[ ] User searches website → Approved property is now visible</p></li>
+<li><p>[ ] User tries direct URL of pending property → Gets “not available” message</p></li>
+<li><p>[ ] Owner can see own pending property (via owner dashboard)</p></li>
+<li><p>[ ] Admin can see pending property in admin dashboard</p></li>
+<li><p>[ ] Admin deactivates an active property → Property is hidden from users</p></li>
+<li><p>[ ] Search/API endpoints only return active properties</p></li>
+<li><p>[ ] Similar properties only shows active properties</p></li>
+</ul>
+</section>
+<section id="security-notes">
+<h2>Security Notes<a class="headerlink" href="#security-notes" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Regular Users</strong> cannot see pending or inactive properties</p></li>
+<li><p><strong>Owners</strong> can see their own pending properties (in owner dashboard)</p></li>
+<li><p><strong>Admins</strong> can see all properties and control their status</p></li>
+<li><p>Direct URL access to pending properties is blocked with proper error message</p></li>
+<li><p>API endpoints enforce status filtering for regular users</p></li>
+</ol>
+</section>
+<section id="future-enhancements">
+<h2>Future Enhancements<a class="headerlink" href="#future-enhancements" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>[ ] Add email notification when property is approved</p></li>
+<li><p>[ ] Add rejection reason field for rejected properties</p></li>
+<li><p>[ ] Implement property status transition history/audit log</p></li>
+<li><p>[ ] Add automated approval for verified owners</p></li>
+<li><p>[ ] Send reminder emails for pending properties older than X days</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="FORGOT_PASSWORD_IMPLEMENTATION.html" class="btn btn-neutral float-left" title="Forgot Password &amp; OTP Verification Implementation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="PROPERTY_APPROVAL_IMPLEMENTATION.html" class="btn btn-neutral float-right" title="Property Approval System - Implementation Summary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Dwarkesh S..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
