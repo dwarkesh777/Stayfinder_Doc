@@ -1,0 +1,357 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Booking Acceptance Flow - User Dashboard Integration &mdash; Stayfinder 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Booking Request Email Notifications - Implementation Guide" href="BOOKING_EMAIL_IMPLEMENTATION.html" />
+    <link rel="prev" title="✅ Property Approval System - Implementation Complete" href="IMPLEMENTATION_COMPLETE.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Stayfinder
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">General:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">SEM3-Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ADMIN_DASHBOARD_README.html">Admin Dashboard for Stayfinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email_setup_instructions.html">Gmail App Password Setup Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IMPLEMENTATION_COMPLETE.html">✅ Property Approval System - Implementation Complete</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Booking System:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Admin Booking Acceptance Flow - User Dashboard Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flow-diagram">Flow Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-changed">What Changed</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#booking-confirmation-endpoint-api-bookings-booking-id-confirm">1. <strong>Booking Confirmation Endpoint</strong> (<code class="docutils literal notranslate"><span class="pre">/api/bookings/&lt;booking_id&gt;/confirm</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#new-email-template-booking-acceptance-user-html">2. <strong>New Email Template</strong> - <code class="docutils literal notranslate"><span class="pre">booking_acceptance_user.html</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-dashboard-update-bookings-html">3. <strong>User Dashboard Update</strong> - <code class="docutils literal notranslate"><span class="pre">bookings.html</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#user-experience">User Experience</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#before-admin-accepts-booking">Before Admin Accepts Booking:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#after-admin-accepts-booking">After Admin Accepts Booking:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#technical-details">Technical Details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#booking-status-states">Booking Status States:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#email-configuration">Email Configuration:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-checklist">Testing Checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#related-files">Related Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#faq">FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_EMAIL_IMPLEMENTATION.html">Booking Request Email Notifications - Implementation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_EMAILS_QUICK_GUIDE.html">Booking Email Notifications - Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ENQUIRY_EMAIL_NOTIFICATIONS.html">✅ Enquiry Email Notifications - Implementation Complete</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Password Management:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_INDEX.html">Forgot Password Feature - Complete Documentation Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_QUICKSTART.html">Quick Start Guide - Forgot Password Feature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_README.html">🔐 FORGOT PASSWORD FEATURE - QUICK ACCESS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_SUMMARY.html">Implementation Summary - Forgot Password with OTP Verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_DELIVERY.html">🎉 FORGOT PASSWORD FEATURE - DELIVERY COMPLETE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_IMPLEMENTATION.html">Forgot Password &amp; OTP Verification Implementation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Property System:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PROPERTY_APPROVAL_SYSTEM.html">Property Approval System Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROPERTY_APPROVAL_IMPLEMENTATION.html">Property Approval System - Implementation Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Stayfinder</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Admin Booking Acceptance Flow - User Dashboard Integration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/BOOKING_ACCEPTANCE_FLOW.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="admin-booking-acceptance-flow-user-dashboard-integration">
+<h1>Admin Booking Acceptance Flow - User Dashboard Integration<a class="headerlink" href="#admin-booking-acceptance-flow-user-dashboard-integration" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>When an admin/owner <strong>accepts a booking</strong> from the owner dashboard, the booking automatically appears in the <strong>user’s Completed Bookings</strong> section with all details and a confirmation email.</p>
+</section>
+<hr class="docutils" />
+<section id="flow-diagram">
+<h2>Flow Diagram<a class="headerlink" href="#flow-diagram" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. User submits booking request
+   ↓
+2. Owner receives booking notification email
+   ↓
+3. Owner accepts booking from Owner Dashboard
+   ↓ (/api/bookings/&lt;booking_id&gt;/confirm)
+4. Backend:
+   - Updates booking status to &#39;completed&#39;
+   - Sets confirmed_at timestamp
+   - Sends acceptance email to user
+   ↓
+5. User sees booking in &quot;Completed Bookings&quot; tab
+   ↓
+6. User can contact owner and proceed with move-in
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="what-changed">
+<h2>What Changed<a class="headerlink" href="#what-changed" title="Link to this heading"></a></h2>
+<section id="booking-confirmation-endpoint-api-bookings-booking-id-confirm">
+<h3>1. <strong>Booking Confirmation Endpoint</strong> (<code class="docutils literal notranslate"><span class="pre">/api/bookings/&lt;booking_id&gt;/confirm</span></code>)<a class="headerlink" href="#booking-confirmation-endpoint-api-bookings-booking-id-confirm" title="Link to this heading"></a></h3>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">app.py</span></code> (Lines 579-630)</p>
+<p><strong>Updates:</strong></p>
+<ul class="simple">
+<li><p>✅ Changed status from <code class="docutils literal notranslate"><span class="pre">'confirmed'</span></code> to <code class="docutils literal notranslate"><span class="pre">'completed'</span></code> (so it appears in user’s completed section)</p></li>
+<li><p>✅ Added <code class="docutils literal notranslate"><span class="pre">updated_at</span></code> timestamp</p></li>
+<li><p>✅ Added email notification to user when booking is accepted</p></li>
+<li><p>✅ Fetches owner and user information for email context</p></li>
+<li><p>✅ Error handling - booking succeeds even if email fails</p></li>
+</ul>
+<p><strong>New Behavior:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Before: status = &#39;confirmed&#39;</span>
+<span class="c1"># After: status = &#39;completed&#39; + sends confirmation email</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="new-email-template-booking-acceptance-user-html">
+<h3>2. <strong>New Email Template</strong> - <code class="docutils literal notranslate"><span class="pre">booking_acceptance_user.html</span></code><a class="headerlink" href="#new-email-template-booking-acceptance-user-html" title="Link to this heading"></a></h3>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">templates/emails/booking_acceptance_user.html</span></code> (NEW FILE - 247 lines)</p>
+<p><strong>Features:</strong></p>
+<ul class="simple">
+<li><p>Green header with “✅ Booking Accepted!” message</p></li>
+<li><p>Success message badge showing booking is now confirmed</p></li>
+<li><p>Complete booking details (property name, location, address, contact)</p></li>
+<li><p>Owner contact information with direct email/phone links</p></li>
+<li><p>“Next Steps” section with action buttons</p></li>
+<li><p>Move-in tips and recommendations</p></li>
+<li><p>Professional styling matching other emails</p></li>
+</ul>
+<p><strong>Email Content Includes:</strong></p>
+<ul class="simple">
+<li><p>Property name, location, and address</p></li>
+<li><p>Owner’s name, email, and phone number</p></li>
+<li><p>Call-to-action buttons to contact owner</p></li>
+<li><p>Tips for smooth move-in process</p></li>
+<li><p>Link to view booking in dashboard</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="user-dashboard-update-bookings-html">
+<h3>3. <strong>User Dashboard Update</strong> - <code class="docutils literal notranslate"><span class="pre">bookings.html</span></code><a class="headerlink" href="#user-dashboard-update-bookings-html" title="Link to this heading"></a></h3>
+<p><strong>File:</strong> <code class="docutils literal notranslate"><span class="pre">templates/bookings.html</span></code> (Line 155)</p>
+<p><strong>Change:</strong></p>
+<div class="highlight-jinja2 notranslate"><div class="highlight"><pre><span></span>&lt;!-- Before: Only &#39;completed&#39; status --&gt;
+{% if booking.status == &#39;completed&#39; %}
+
+&lt;!-- After: Both &#39;completed&#39; and &#39;confirmed&#39; for compatibility --&gt;
+{% if booking.status == &#39;completed&#39; or booking.status == &#39;confirmed&#39; %}
+</pre></div>
+</div>
+<p>This ensures bookings with either status appear in the Completed tab.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="user-experience">
+<h2>User Experience<a class="headerlink" href="#user-experience" title="Link to this heading"></a></h2>
+<section id="before-admin-accepts-booking">
+<h3>Before Admin Accepts Booking:<a class="headerlink" href="#before-admin-accepts-booking" title="Link to this heading"></a></h3>
+<p><strong>User Dashboard → Bookings → Active Tab</strong></p>
+<ul class="simple">
+<li><p>Shows booking as “Pending” or “Active”</p></li>
+<li><p>User can cancel or contact host</p></li>
+<li><p>No confirmation of acceptance</p></li>
+</ul>
+</section>
+<section id="after-admin-accepts-booking">
+<h3>After Admin Accepts Booking:<a class="headerlink" href="#after-admin-accepts-booking" title="Link to this heading"></a></h3>
+<p><strong>Step 1: User receives email</strong></p>
+<ul class="simple">
+<li><p>Subject: “Booking Accepted - [Property Name]”</p></li>
+<li><p>Contains full booking details</p></li>
+<li><p>Shows owner’s contact information</p></li>
+<li><p>Includes action buttons to contact owner</p></li>
+</ul>
+<p><strong>Step 2: User Dashboard updates</strong></p>
+<ul class="simple">
+<li><p>Booking automatically moves to <strong>Completed Bookings</strong> tab</p></li>
+<li><p>Shows status badge: ✅ <strong>Confirmed</strong></p></li>
+<li><p>Displays all confirmed booking details:</p>
+<ul>
+<li><p>Check-in/Check-out dates (if available)</p></li>
+<li><p>Room type and facility</p></li>
+<li><p>Number of guests</p></li>
+<li><p>Total price</p></li>
+<li><p>Completion date</p></li>
+</ul>
+</li>
+<li><p>Actions available: “Book Again”, “Leave Review”</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="technical-details">
+<h2>Technical Details<a class="headerlink" href="#technical-details" title="Link to this heading"></a></h2>
+<section id="booking-status-states">
+<h3>Booking Status States:<a class="headerlink" href="#booking-status-states" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'pending'</span></code> → Initial state when user submits request</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'active'</span></code> → (Optional) After owner confirms, before move-in</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'completed'</span></code> → ✅ Appears in user’s Completed Bookings (set when owner accepts)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'confirmed'</span></code> → Legacy/Alternative (also displays in Completed tab for compatibility)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'cancelled'</span></code> → Shows in Cancelled tab</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'rejected'</span></code> → Shows in Cancelled/Rejected status</p></li>
+</ul>
+</section>
+<section id="email-configuration">
+<h3>Email Configuration:<a class="headerlink" href="#email-configuration" title="Link to this heading"></a></h3>
+<p>The acceptance email is sent automatically if:</p>
+<ul class="simple">
+<li><p>Flask-Mail is configured (MAIL_DEFAULT_SENDER is set)</p></li>
+<li><p>User email exists in database</p></li>
+<li><p>Mail server connection is available</p></li>
+</ul>
+<p>If email fails, the booking is still successfully updated and marked as completed.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="testing-checklist">
+<h2>Testing Checklist<a class="headerlink" href="#testing-checklist" title="Link to this heading"></a></h2>
+<p>✅ <strong>Owner Flow:</strong></p>
+<ol class="arabic simple">
+<li><p>Owner logs in and goes to Owner Bookings</p></li>
+<li><p>Owner sees pending bookings</p></li>
+<li><p>Owner clicks “Accept” button</p></li>
+<li><p>Backend updates booking status to ‘completed’</p></li>
+<li><p>Confirmation email sent to user (check logs)</p></li>
+</ol>
+<p>✅ <strong>User Flow:</strong></p>
+<ol class="arabic simple">
+<li><p>User logs in and views My Bookings</p></li>
+<li><p>User sees booking in “Active Bookings” tab (if pending)</p></li>
+<li><p>(Admin accepts booking)</p></li>
+<li><p>User refreshes page</p></li>
+<li><p>Booking now appears in “Completed Bookings” tab</p></li>
+<li><p>All details visible: dates, property info, owner contact</p></li>
+<li><p>User can click “Contact Owner” or other action buttons</p></li>
+<li><p>User receives acceptance email in inbox</p></li>
+</ol>
+<p>✅ <strong>Email Content:</strong></p>
+<ul class="simple">
+<li><p>[ ] Email displays property name and location</p></li>
+<li><p>[ ] Owner contact information is correct</p></li>
+<li><p>[ ] Links to contact owner work properly</p></li>
+<li><p>[ ] Email is professionally formatted</p></li>
+<li><p>[ ] Success message is clear</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="related-files">
+<h2>Related Files<a class="headerlink" href="#related-files" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Backend: <code class="docutils literal notranslate"><span class="pre">app.py</span></code> (Booking confirmation endpoint)</p></li>
+<li><p>Email Template: <code class="docutils literal notranslate"><span class="pre">templates/emails/booking_acceptance_user.html</span></code> (NEW)</p></li>
+<li><p>User Dashboard: <code class="docutils literal notranslate"><span class="pre">templates/bookings.html</span></code> (Updated filter)</p></li>
+<li><p>Owner Dashboard: <code class="docutils literal notranslate"><span class="pre">templates/owner_bookings.html</span></code> (Triggers the confirmation)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="faq">
+<h2>FAQ<a class="headerlink" href="#faq" title="Link to this heading"></a></h2>
+<p><strong>Q: What if owner rejects instead of accepts?</strong>
+A: Status becomes ‘rejected’ and appears in user’s “Cancelled” tab with rejection details.</p>
+<p><strong>Q: Can user delete the completed booking?</strong>
+A: Current implementation allows “Book Again” and “Leave Review” options. Delete functionality can be added if needed.</p>
+<p><strong>Q: What if email fails to send?</strong>
+A: Booking is still marked as completed successfully. Error is logged but doesn’t block the confirmation.</p>
+<p><strong>Q: Do completed bookings stay in the dashboard forever?</strong>
+A: Yes, currently all completed bookings remain visible. Can be archived later if needed.</p>
+<p><strong>Q: Can user see when the booking was accepted?</strong>
+A: Yes, the “Completed on” date shows the confirmation timestamp.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="IMPLEMENTATION_COMPLETE.html" class="btn btn-neutral float-left" title="✅ Property Approval System - Implementation Complete" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="BOOKING_EMAIL_IMPLEMENTATION.html" class="btn btn-neutral float-right" title="Booking Request Email Notifications - Implementation Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Dwarkesh S..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

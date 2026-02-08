@@ -1,0 +1,38 @@
+Welcome to Project Documentation
+================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: General:
+
+   README
+   ADMIN_DASHBOARD_README
+   email_setup_instructions
+   IMPLEMENTATION_COMPLETE
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Booking System:
+
+   BOOKING_ACCEPTANCE_FLOW
+   BOOKING_EMAIL_IMPLEMENTATION
+   BOOKING_EMAILS_QUICK_GUIDE
+   ENQUIRY_EMAIL_NOTIFICATIONS
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Password Management:
+
+   FORGOT_PASSWORD_INDEX
+   FORGOT_PASSWORD_QUICKSTART
+   FORGOT_PASSWORD_README
+   FORGOT_PASSWORD_SUMMARY
+   FORGOT_PASSWORD_DELIVERY
+   FORGOT_PASSWORD_IMPLEMENTATION
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Property System:
+
+   PROPERTY_APPROVAL_SYSTEM
+   PROPERTY_APPROVAL_IMPLEMENTATION

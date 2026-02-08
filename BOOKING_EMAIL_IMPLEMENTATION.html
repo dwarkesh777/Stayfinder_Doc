@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booking Request Email Notifications - Implementation Guide &mdash; Stayfinder 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Booking Email Notifications - Quick Reference" href="BOOKING_EMAILS_QUICK_GUIDE.html" />
+    <link rel="prev" title="Admin Booking Acceptance Flow - User Dashboard Integration" href="BOOKING_ACCEPTANCE_FLOW.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Stayfinder
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">General:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="README.html">SEM3-Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ADMIN_DASHBOARD_README.html">Admin Dashboard for Stayfinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email_setup_instructions.html">Gmail App Password Setup Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IMPLEMENTATION_COMPLETE.html">✅ Property Approval System - Implementation Complete</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Booking System:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_ACCEPTANCE_FLOW.html">Admin Booking Acceptance Flow - User Dashboard Integration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Booking Request Email Notifications - Implementation Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#features-implemented">Features Implemented</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#user-confirmation-email">1. <strong>User Confirmation Email</strong> 📧</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#owner-notification-email">2. <strong>Owner Notification Email</strong> 🏠</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#technical-implementation">Technical Implementation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#backend-changes-app-py">Backend Changes (<code class="docutils literal notranslate"><span class="pre">app.py</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#email-variables-passed-to-templates">Email Variables Passed to Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-handling">Error Handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#response-format">Response Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#email-design-features">Email Design Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#user-email-template">User Email Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#owner-email-template">Owner Email Template</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#database-integration">Database Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#collections-used">Collections Used:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#owner-lookup-strategy">Owner Lookup Strategy:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage-example">Usage Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-the-feature">Testing the Feature</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#to-test-with-gmail-smtp">To test with Gmail SMTP:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#future-enhancements">Future Enhancements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#support">Support</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_EMAILS_QUICK_GUIDE.html">Booking Email Notifications - Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ENQUIRY_EMAIL_NOTIFICATIONS.html">✅ Enquiry Email Notifications - Implementation Complete</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Password Management:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_INDEX.html">Forgot Password Feature - Complete Documentation Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_QUICKSTART.html">Quick Start Guide - Forgot Password Feature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_README.html">🔐 FORGOT PASSWORD FEATURE - QUICK ACCESS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_SUMMARY.html">Implementation Summary - Forgot Password with OTP Verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_DELIVERY.html">🎉 FORGOT PASSWORD FEATURE - DELIVERY COMPLETE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_IMPLEMENTATION.html">Forgot Password &amp; OTP Verification Implementation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Property System:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PROPERTY_APPROVAL_SYSTEM.html">Property Approval System Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROPERTY_APPROVAL_IMPLEMENTATION.html">Property Approval System - Implementation Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Stayfinder</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Booking Request Email Notifications - Implementation Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/BOOKING_EMAIL_IMPLEMENTATION.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="booking-request-email-notifications-implementation-guide">
+<h1>Booking Request Email Notifications - Implementation Guide<a class="headerlink" href="#booking-request-email-notifications-implementation-guide" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This document outlines the booking request email notification system that sends confirmation emails to both users and property owners when a booking request is submitted.</p>
+</section>
+<section id="features-implemented">
+<h2>Features Implemented<a class="headerlink" href="#features-implemented" title="Link to this heading"></a></h2>
+<section id="user-confirmation-email">
+<h3>1. <strong>User Confirmation Email</strong> 📧<a class="headerlink" href="#user-confirmation-email" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>File</strong>: <code class="docutils literal notranslate"><span class="pre">templates/emails/booking_request_user.html</span></code></p></li>
+<li><p><strong>Trigger</strong>: When user clicks “Book Now” and booking request is submitted</p></li>
+<li><p><strong>Recipient</strong>: Student/User email</p></li>
+<li><p><strong>Content</strong>:</p>
+<ul>
+<li><p>Confirmation that booking request was successfully sent</p></li>
+<li><p>Property details (name, location, price, room type)</p></li>
+<li><p>Current booking status (Pending Review)</p></li>
+<li><p>Next steps information</p></li>
+<li><p>Property owner name</p></li>
+<li><p>Professional branded footer</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="owner-notification-email">
+<h3>2. <strong>Owner Notification Email</strong> 🏠<a class="headerlink" href="#owner-notification-email" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>File</strong>: <code class="docutils literal notranslate"><span class="pre">templates/emails/booking_request_to_owner.html</span></code></p></li>
+<li><p><strong>Trigger</strong>: When user submits booking request (same as above)</p></li>
+<li><p><strong>Recipient</strong>: Property owner email</p></li>
+<li><p><strong>Content</strong>:</p>
+<ul>
+<li><p>Alert about new booking request</p></li>
+<li><p><strong>Applicant Information</strong> (User Details):</p>
+<ul>
+<li><p>Full name</p></li>
+<li><p>Email address</p></li>
+<li><p>Phone number</p></li>
+<li><p>User type (Student/Professional)</p></li>
+<li><p>College/University (if provided)</p></li>
+<li><p>Request timestamp</p></li>
+<li><p>Additional info/bio from user profile</p></li>
+</ul>
+</li>
+<li><p>Property details</p></li>
+<li><p>Quick action tips</p></li>
+<li><p>Direct email reply link to contact applicant</p></li>
+<li><p>Call-to-action buttons</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="technical-implementation">
+<h2>Technical Implementation<a class="headerlink" href="#technical-implementation" title="Link to this heading"></a></h2>
+<section id="backend-changes-app-py">
+<h3>Backend Changes (<code class="docutils literal notranslate"><span class="pre">app.py</span></code>)<a class="headerlink" href="#backend-changes-app-py" title="Link to this heading"></a></h3>
+<p><strong>Endpoint</strong>: <code class="docutils literal notranslate"><span class="pre">/api/request-booking</span></code> (Lines 418-570)</p>
+<p><strong>Process Flow</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">User</span> <span class="n">submits</span> <span class="n">booking</span> <span class="n">request</span> <span class="n">via</span> <span class="n">API</span>
+<span class="mf">2.</span> <span class="n">JWT</span> <span class="n">authentication</span> <span class="n">validates</span> <span class="n">user</span>
+<span class="mf">3.</span> <span class="n">User</span> <span class="ow">and</span> <span class="n">hostel</span> <span class="n">information</span> <span class="n">retrieved</span> <span class="kn">from</span><span class="w"> </span><span class="nn">MongoDB</span>
+<span class="mf">4.</span> <span class="n">Booking</span> <span class="n">record</span> <span class="n">created</span> <span class="k">with</span> <span class="n">status</span><span class="p">:</span> <span class="s2">&quot;pending&quot;</span>
+<span class="mf">5.</span> <span class="n">EMAIL</span> <span class="n">TO</span> <span class="n">USER</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">Template</span><span class="p">:</span> <span class="n">booking_request_user</span><span class="o">.</span><span class="n">html</span>
+   <span class="o">-</span> <span class="n">Data</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span> <span class="n">hostel</span><span class="p">,</span> <span class="n">property_type</span><span class="p">,</span> <span class="n">facility</span><span class="p">,</span> <span class="n">timestamp</span>
+<span class="mf">6.</span> <span class="n">EMAIL</span> <span class="n">TO</span> <span class="n">OWNER</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">Fetch</span> <span class="n">owner</span> <span class="kn">from</span><span class="w"> </span><span class="nn">hostels</span> <span class="n">collection</span> <span class="p">(</span><span class="n">owner_id</span> <span class="ow">or</span> <span class="n">created_by</span> <span class="n">field</span><span class="p">)</span>
+   <span class="o">-</span> <span class="n">Template</span><span class="p">:</span> <span class="n">booking_request_to_owner</span><span class="o">.</span><span class="n">html</span>
+   <span class="o">-</span> <span class="n">Data</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">hostel</span><span class="p">,</span> <span class="n">property_type</span><span class="p">,</span> <span class="n">facility</span><span class="p">,</span> <span class="n">request_time</span>
+<span class="mf">7.</span> <span class="n">Response</span> <span class="n">sent</span> <span class="k">with</span> <span class="n">email</span> <span class="n">status</span> <span class="n">indicators</span>
+</pre></div>
+</div>
+</section>
+<section id="email-variables-passed-to-templates">
+<h3>Email Variables Passed to Templates<a class="headerlink" href="#email-variables-passed-to-templates" title="Link to this heading"></a></h3>
+<p><strong>User Email Template</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">user</span></code> - User document with name, email, phone</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hostel</span></code> - Property document with name, location, price</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">property_type</span></code> - Type of property (Hostel/Flat/PG)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">facility</span></code> - Room type (Single/Double/Shared)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">now</span></code> - Current timestamp for email</p></li>
+</ul>
+<p><strong>Owner Email Template</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">user</span></code> - Applicant document with all details</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">owner</span></code> - Owner document with name, email</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hostel</span></code> - Property details</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">property_type</span></code> - Property type</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">facility</span></code> - Room type</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">request_time</span></code> - Booking request timestamp</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dashboard_link</span></code> - Link to owner dashboard (optional)</p></li>
+</ul>
+</section>
+<section id="error-handling">
+<h3>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading"></a></h3>
+<p>The system is robust with graceful degradation:</p>
+<ul class="simple">
+<li><p><strong>User Email Fails</strong>: Owner email still sent; user still gets success response</p></li>
+<li><p><strong>Owner Email Fails</strong>: User email already sent; booking confirmed</p></li>
+<li><p><strong>Both Emails Fail</strong>: Booking still confirmed; response indicates email issue</p></li>
+<li><p><strong>Owner Not Found</strong>: System continues; no error blocks booking</p></li>
+</ul>
+</section>
+<section id="response-format">
+<h3>Response Format<a class="headerlink" href="#response-format" title="Link to this heading"></a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;success&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Booking request submitted successfully! Confirmation email has been sent to your email address. The property owner has been notified and will respond soon.&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;booking_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;507f1f77bcf86cd799439011&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;user_email_sent&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;owner_email_sent&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;email_error&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="email-design-features">
+<h2>Email Design Features<a class="headerlink" href="#email-design-features" title="Link to this heading"></a></h2>
+<section id="user-email-template">
+<h3>User Email Template<a class="headerlink" href="#user-email-template" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>✓ Gradient purple header</p></li>
+<li><p>✓ Checkmark success indicator</p></li>
+<li><p>✓ Property card with key information</p></li>
+<li><p>✓ Booking status badge (Pending Review)</p></li>
+<li><p>✓ Professional next steps section</p></li>
+<li><p>✓ Tips for profile completion</p></li>
+<li><p>✓ Footer with company branding</p></li>
+</ul>
+</section>
+<section id="owner-email-template">
+<h3>Owner Email Template<a class="headerlink" href="#owner-email-template" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>✓ Action required alert badge (orange)</p></li>
+<li><p>✓ Applicant card with green highlight</p></li>
+<li><p>✓ All user contact details</p></li>
+<li><p>✓ College/University information</p></li>
+<li><p>✓ Quick tips for responding</p></li>
+<li><p>✓ Action buttons (Reply email, View Dashboard)</p></li>
+<li><p>✓ Pre-formatted email reply link</p></li>
+<li><p>✓ Professional branding</p></li>
+</ul>
+</section>
+</section>
+<section id="database-integration">
+<h2>Database Integration<a class="headerlink" href="#database-integration" title="Link to this heading"></a></h2>
+<section id="collections-used">
+<h3>Collections Used:<a class="headerlink" href="#collections-used" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>users</strong>: User and owner documents</p>
+<ul class="simple">
+<li><p>Fields: name, email, phone, user_type, college, bio/about</p></li>
+</ul>
+</li>
+<li><p><strong>hostels</strong>: Property documents</p>
+<ul class="simple">
+<li><p>Fields: name, city, price, owner_id, created_by</p></li>
+</ul>
+</li>
+<li><p><strong>bookings</strong>: Booking records</p>
+<ul class="simple">
+<li><p>Fields: user_id, hostel_id, room_id, property_type, facility, status, created_at</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="owner-lookup-strategy">
+<h3>Owner Lookup Strategy:<a class="headerlink" href="#owner-lookup-strategy" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">owner_id</span> <span class="o">=</span> <span class="n">hostel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;owner_id&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">hostel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;created_by&#39;</span><span class="p">)</span>
+<span class="n">owner</span> <span class="o">=</span> <span class="n">mongo</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">owner_id</span><span class="p">)})</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="usage-example">
+<h2>Usage Example<a class="headerlink" href="#usage-example" title="Link to this heading"></a></h2>
+<p>When a user navigates to a property and clicks “Book Now”, the following happens:</p>
+<ol class="arabic simple">
+<li><p>Frontend collects: <code class="docutils literal notranslate"><span class="pre">hostel_id</span></code>, <code class="docutils literal notranslate"><span class="pre">room_id</span></code>, <code class="docutils literal notranslate"><span class="pre">property_type</span></code>, <code class="docutils literal notranslate"><span class="pre">facility</span></code></p></li>
+<li><p>API call to <code class="docutils literal notranslate"><span class="pre">/api/request-booking</span></code> with JWT token</p></li>
+<li><p>Booking record created in MongoDB</p></li>
+<li><p><strong>User receives</strong>: Confirmation email with property details and next steps</p></li>
+<li><p><strong>Owner receives</strong>: Alert email with applicant details and contact information</p></li>
+<li><p>Both parties can now communicate to finalize the booking</p></li>
+</ol>
+</section>
+<section id="testing-the-feature">
+<h2>Testing the Feature<a class="headerlink" href="#testing-the-feature" title="Link to this heading"></a></h2>
+<section id="to-test-with-gmail-smtp">
+<h3>To test with Gmail SMTP:<a class="headerlink" href="#to-test-with-gmail-smtp" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p>Configure environment variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MAIL_SERVER</span><span class="o">=</span><span class="n">smtp</span><span class="o">.</span><span class="n">gmail</span><span class="o">.</span><span class="n">com</span>
+<span class="n">MAIL_PORT</span><span class="o">=</span><span class="mi">587</span>
+<span class="n">MAIL_USE_TLS</span><span class="o">=</span><span class="kc">True</span>
+<span class="n">MAIL_USERNAME</span><span class="o">=</span><span class="n">your</span><span class="o">-</span><span class="n">email</span><span class="nd">@gmail</span><span class="o">.</span><span class="n">com</span>
+<span class="n">MAIL_PASSWORD</span><span class="o">=</span><span class="n">your</span><span class="o">-</span><span class="n">app</span><span class="o">-</span><span class="n">password</span>
+<span class="n">MAIL_DEFAULT_SENDER</span><span class="o">=</span><span class="n">your</span><span class="o">-</span><span class="n">email</span><span class="nd">@gmail</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
+</li>
+<li><p>Create test properties with owner information in MongoDB</p></li>
+<li><p>Submit booking request via API:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:5000/api/request-booking<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;hostel_id&quot;</span>:<span class="w"> </span><span class="s2">&quot;507f1f77bcf86cd799439011&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;room_id&quot;</span>:<span class="w"> </span><span class="s2">&quot;room123&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;property_type&quot;</span>:<span class="w"> </span><span class="s2">&quot;Hostel&quot;</span>,
+<span class="w">    </span><span class="s2">&quot;facility&quot;</span>:<span class="w"> </span><span class="s2">&quot;Shared&quot;</span>
+<span class="w">  </span><span class="o">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>Check recipient email inboxes for both user and owner emails</p></li>
+</ol>
+</section>
+</section>
+<section id="future-enhancements">
+<h2>Future Enhancements<a class="headerlink" href="#future-enhancements" title="Link to this heading"></a></h2>
+<p>Possible improvements:</p>
+<ul class="simple">
+<li><p>Add booking status change notifications (Approved/Rejected)</p></li>
+<li><p>SMS notifications for urgent responses</p></li>
+<li><p>Email reminders for pending bookings</p></li>
+<li><p>Owner response tracking</p></li>
+<li><p>Email templates for payment confirmation</p></li>
+<li><p>Automated follow-up emails</p></li>
+</ul>
+</section>
+<section id="support">
+<h2>Support<a class="headerlink" href="#support" title="Link to this heading"></a></h2>
+<p>For issues or questions about the booking email system:</p>
+<ul class="simple">
+<li><p>Check email configuration in <code class="docutils literal notranslate"><span class="pre">.env</span></code> file</p></li>
+<li><p>Review Flask-Mail documentation</p></li>
+<li><p>Check server console for email debug logs</p></li>
+<li><p>Verify MongoDB owner_id/created_by fields in hostels collection</p></li>
+</ul>
+<hr class="docutils" />
+<p><strong>Implementation Date</strong>: 2024
+<strong>Status</strong>: ✅ Complete and Tested</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="BOOKING_ACCEPTANCE_FLOW.html" class="btn btn-neutral float-left" title="Admin Booking Acceptance Flow - User Dashboard Integration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="BOOKING_EMAILS_QUICK_GUIDE.html" class="btn btn-neutral float-right" title="Booking Email Notifications - Quick Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Dwarkesh S..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

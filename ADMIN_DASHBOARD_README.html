@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard for Stayfinder &mdash; Stayfinder 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Gmail App Password Setup Instructions" href="email_setup_instructions.html" />
+    <link rel="prev" title="SEM3-Project" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Stayfinder
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">General:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">SEM3-Project</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Admin Dashboard for Stayfinder</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dashboard-overview">📊 <strong>Dashboard Overview</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#property-management">🏢 <strong>Property Management</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#owner-information">👤 <strong>Owner Information</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-instructions">Setup Instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-admin-user">1. Create Admin User</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#alternative-admin-setup">2. Alternative Admin Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#access-admin-dashboard">3. Access Admin Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#admin-api-endpoints">Admin API Endpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#security-features">Security Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#access-control">🔐 <strong>Access Control</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#permission-checks">🛡️ <strong>Permission Checks</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#property-status-workflow">Property Status Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dashboard-actions">Dashboard Actions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#approve-property">✅ <strong>Approve Property</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deactivate-property">⏸️ <strong>Deactivate Property</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delete-property">🗑️ <strong>Delete Property</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage-tips">Usage Tips</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#searching-properties">🔍 <strong>Searching Properties</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">📋 <strong>Property Management</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#monitoring">📊 <strong>Monitoring</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#access-denied-error">“Access denied” Error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#properties-not-showing">Properties Not Showing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-errors">API Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#database-schema">Database Schema</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#users-collection">Users Collection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#properties-collection">Properties Collection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#support">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#security-notes">Security Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="email_setup_instructions.html">Gmail App Password Setup Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IMPLEMENTATION_COMPLETE.html">✅ Property Approval System - Implementation Complete</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Booking System:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_ACCEPTANCE_FLOW.html">Admin Booking Acceptance Flow - User Dashboard Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_EMAIL_IMPLEMENTATION.html">Booking Request Email Notifications - Implementation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BOOKING_EMAILS_QUICK_GUIDE.html">Booking Email Notifications - Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ENQUIRY_EMAIL_NOTIFICATIONS.html">✅ Enquiry Email Notifications - Implementation Complete</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Password Management:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_INDEX.html">Forgot Password Feature - Complete Documentation Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_QUICKSTART.html">Quick Start Guide - Forgot Password Feature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_README.html">🔐 FORGOT PASSWORD FEATURE - QUICK ACCESS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_SUMMARY.html">Implementation Summary - Forgot Password with OTP Verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_DELIVERY.html">🎉 FORGOT PASSWORD FEATURE - DELIVERY COMPLETE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FORGOT_PASSWORD_IMPLEMENTATION.html">Forgot Password &amp; OTP Verification Implementation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Property System:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PROPERTY_APPROVAL_SYSTEM.html">Property Approval System Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PROPERTY_APPROVAL_IMPLEMENTATION.html">Property Approval System - Implementation Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Stayfinder</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Admin Dashboard for Stayfinder</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ADMIN_DASHBOARD_README.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="admin-dashboard-for-stayfinder">
+<h1>Admin Dashboard for Stayfinder<a class="headerlink" href="#admin-dashboard-for-stayfinder" title="Link to this heading"></a></h1>
+<p>This admin dashboard allows administrators to manage all properties and users in the Stayfinder system.</p>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h2>
+<section id="dashboard-overview">
+<h3>📊 <strong>Dashboard Overview</strong><a class="headerlink" href="#dashboard-overview" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Total Properties</strong>: View all PGs and hostels in the system</p></li>
+<li><p><strong>Total Owners</strong>: Count of all property owners</p></li>
+<li><p><strong>Pending Properties</strong>: Properties awaiting approval</p></li>
+<li><p><strong>Total Bookings</strong>: Overall booking statistics</p></li>
+</ul>
+</section>
+<section id="property-management">
+<h3>🏢 <strong>Property Management</strong><a class="headerlink" href="#property-management" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>View All Properties</strong>: Complete list of all PGs and hostels with owner information</p></li>
+<li><p><strong>Search &amp; Filter</strong>: Search by name and filter by status (pending, active, inactive)</p></li>
+<li><p><strong>Property Details</strong>: View property images, location, pricing, and owner contact</p></li>
+<li><p><strong>Approval System</strong>: Approve pending properties to make them live</p></li>
+<li><p><strong>Status Management</strong>: Activate/deactivate properties</p></li>
+<li><p><strong>Delete Properties</strong>: Remove inappropriate or duplicate listings</p></li>
+</ul>
+</section>
+<section id="owner-information">
+<h3>👤 <strong>Owner Information</strong><a class="headerlink" href="#owner-information" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Owner Details</strong>: See who added each property</p></li>
+<li><p><strong>Contact Information</strong>: Owner email and name for each listing</p></li>
+<li><p><strong>Property History</strong>: Track when properties were added and updated</p></li>
+</ul>
+</section>
+</section>
+<section id="setup-instructions">
+<h2>Setup Instructions<a class="headerlink" href="#setup-instructions" title="Link to this heading"></a></h2>
+<section id="create-admin-user">
+<h3>1. Create Admin User<a class="headerlink" href="#create-admin-user" title="Link to this heading"></a></h3>
+<p>Run the setup script to create an admin account:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>e:<span class="se">\s</span>em3
+python<span class="w"> </span>setup_admin.py<span class="w"> </span>create
+</pre></div>
+</div>
+<p>This will create an admin user with:</p>
+<ul class="simple">
+<li><p><strong>Email</strong>: admin&#64;stayfinder.com</p></li>
+<li><p><strong>Password</strong>: admin123</p></li>
+<li><p><strong>⚠️ Important</strong>: Change the password after first login!</p></li>
+</ul>
+</section>
+<section id="alternative-admin-setup">
+<h3>2. Alternative Admin Setup<a class="headerlink" href="#alternative-admin-setup" title="Link to this heading"></a></h3>
+<p>If you want to make an existing user an admin:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup_admin.py<span class="w"> </span>make<span class="w"> </span>user@example.com
+</pre></div>
+</div>
+<p>To list all admin users:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup_admin.py<span class="w"> </span>list
+</pre></div>
+</div>
+</section>
+<section id="access-admin-dashboard">
+<h3>3. Access Admin Dashboard<a class="headerlink" href="#access-admin-dashboard" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Login with admin credentials</p></li>
+<li><p>Navigate to: <code class="docutils literal notranslate"><span class="pre">http://localhost:5000/admin-dashboard</span></code></p></li>
+</ol>
+</section>
+</section>
+<section id="admin-api-endpoints">
+<h2>Admin API Endpoints<a class="headerlink" href="#admin-api-endpoints" title="Link to this heading"></a></h2>
+<p>The dashboard uses these admin-only API endpoints:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/api/admin/properties/&lt;id&gt;/approve</span></code> - Approve a property</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/api/admin/properties/&lt;id&gt;/deactivate</span></code> - Deactivate a property</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/api/admin/properties/&lt;id&gt;</span></code> - Delete a property</p></li>
+</ul>
+<p>All endpoints require:</p>
+<ul class="simple">
+<li><p>JWT authentication token</p></li>
+<li><p>User with <code class="docutils literal notranslate"><span class="pre">is_admin:</span> <span class="pre">true</span></code> in database</p></li>
+</ul>
+</section>
+<section id="security-features">
+<h2>Security Features<a class="headerlink" href="#security-features" title="Link to this heading"></a></h2>
+<section id="access-control">
+<h3>🔐 <strong>Access Control</strong><a class="headerlink" href="#access-control" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Only users with <code class="docutils literal notranslate"><span class="pre">is_admin:</span> <span class="pre">true</span></code> can access dashboard</p></li>
+<li><p>JWT token verification for all API calls</p></li>
+<li><p>Session-based authentication</p></li>
+</ul>
+</section>
+<section id="permission-checks">
+<h3>🛡️ <strong>Permission Checks</strong><a class="headerlink" href="#permission-checks" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Admin verification on every action</p></li>
+<li><p>Database-level permission validation</p></li>
+<li><p>Secure property management operations</p></li>
+</ul>
+</section>
+</section>
+<section id="property-status-workflow">
+<h2>Property Status Workflow<a class="headerlink" href="#property-status-workflow" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Pending → Active → Inactive
+    ↓         ↓         ↓
+  Review   Live     Suspended
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p><strong>Pending</strong>: New properties added by owners (not visible to public)</p></li>
+<li><p><strong>Active</strong>: Approved properties (visible and bookable)</p></li>
+<li><p><strong>Inactive</strong>: Suspended properties (not visible)</p></li>
+</ol>
+</section>
+<section id="dashboard-actions">
+<h2>Dashboard Actions<a class="headerlink" href="#dashboard-actions" title="Link to this heading"></a></h2>
+<section id="approve-property">
+<h3>✅ <strong>Approve Property</strong><a class="headerlink" href="#approve-property" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Changes status from “pending” to “active”</p></li>
+<li><p>Property becomes visible to users</p></li>
+<li><p>Sends notification to property owner</p></li>
+</ul>
+</section>
+<section id="deactivate-property">
+<h3>⏸️ <strong>Deactivate Property</strong><a class="headerlink" href="#deactivate-property" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Changes status from “active” to “inactive”</p></li>
+<li><p>Property becomes hidden from users</p></li>
+<li><p>Preserves all property data</p></li>
+</ul>
+</section>
+<section id="delete-property">
+<h3>🗑️ <strong>Delete Property</strong><a class="headerlink" href="#delete-property" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Permanently removes property from database</p></li>
+<li><p>Cannot be undone</p></li>
+<li><p>Use with caution</p></li>
+</ul>
+</section>
+</section>
+<section id="usage-tips">
+<h2>Usage Tips<a class="headerlink" href="#usage-tips" title="Link to this heading"></a></h2>
+<section id="searching-properties">
+<h3>🔍 <strong>Searching Properties</strong><a class="headerlink" href="#searching-properties" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Use the search box to find properties by name</p></li>
+<li><p>Filter by status to view specific categories</p></li>
+<li><p>Search works in real-time</p></li>
+</ul>
+</section>
+<section id="id1">
+<h3>📋 <strong>Property Management</strong><a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Review pending properties regularly</p></li>
+<li><p>Contact owners for missing information</p></li>
+<li><p>Maintain quality standards for listings</p></li>
+</ul>
+</section>
+<section id="monitoring">
+<h3>📊 <strong>Monitoring</strong><a class="headerlink" href="#monitoring" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Check dashboard statistics daily</p></li>
+<li><p>Monitor new property submissions</p></li>
+<li><p>Track booking trends</p></li>
+</ul>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="access-denied-error">
+<h3>“Access denied” Error<a class="headerlink" href="#access-denied-error" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Ensure user has <code class="docutils literal notranslate"><span class="pre">is_admin:</span> <span class="pre">true</span></code> in database</p></li>
+<li><p>Check if user is logged in with correct credentials</p></li>
+<li><p>Verify JWT token is valid</p></li>
+</ul>
+</section>
+<section id="properties-not-showing">
+<h3>Properties Not Showing<a class="headerlink" href="#properties-not-showing" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Check database connection</p></li>
+<li><p>Verify properties have required fields</p></li>
+<li><p>Ensure MongoDB is running</p></li>
+</ul>
+</section>
+<section id="api-errors">
+<h3>API Errors<a class="headerlink" href="#api-errors" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Check browser console for detailed errors</p></li>
+<li><p>Verify network connectivity</p></li>
+<li><p>Ensure admin permissions are set correctly</p></li>
+</ul>
+</section>
+</section>
+<section id="database-schema">
+<h2>Database Schema<a class="headerlink" href="#database-schema" title="Link to this heading"></a></h2>
+<section id="users-collection">
+<h3>Users Collection<a class="headerlink" href="#users-collection" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;_id&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">ObjectId</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;System Administrator&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;email&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;admin@stayfinder.com&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="s2">&quot;is_admin&quot;</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;user_type&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;account_status&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="properties-collection">
+<h3>Properties Collection<a class="headerlink" href="#properties-collection" title="Link to this heading"></a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;_id&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">ObjectId</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Property Name&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;created_by&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;status&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;pending|active|inactive&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;approved_at&quot;</span><span class="o">:</span><span class="w"> </span><span class="nb">Date</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;owner_name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Owner Name&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;owner_email&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;owner@example.com&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="support">
+<h2>Support<a class="headerlink" href="#support" title="Link to this heading"></a></h2>
+<p>For issues with the admin dashboard:</p>
+<ol class="arabic simple">
+<li><p>Check the browser console for JavaScript errors</p></li>
+<li><p>Verify MongoDB connection and data</p></li>
+<li><p>Ensure admin user is properly configured</p></li>
+<li><p>Check Flask application logs</p></li>
+</ol>
+</section>
+<section id="security-notes">
+<h2>Security Notes<a class="headerlink" href="#security-notes" title="Link to this heading"></a></h2>
+<p>⚠️ <strong>Important Security Reminders</strong>:</p>
+<ul class="simple">
+<li><p>Change default admin password immediately</p></li>
+<li><p>Use strong passwords for admin accounts</p></li>
+<li><p>Limit admin access to trusted personnel only</p></li>
+<li><p>Regularly review admin activity logs</p></li>
+<li><p>Keep the admin dashboard URL private</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="README.html" class="btn btn-neutral float-left" title="SEM3-Project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="email_setup_instructions.html" class="btn btn-neutral float-right" title="Gmail App Password Setup Instructions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Dwarkesh S..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
