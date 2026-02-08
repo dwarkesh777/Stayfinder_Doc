@@ -7,9 +7,10 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Stayfinder'
-copyright = '2026, Dwarkesh S.'
-author = 'Dwarkesh S.'
+copyright = '2026, Stayfinder'
+author = 'Dwarkesh S., Harshal M . , Shruti P.'
 release = '1'
+
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
